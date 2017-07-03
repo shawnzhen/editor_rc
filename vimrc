@@ -66,7 +66,7 @@ endif
 
 " ------------------------------ Vundle Settings ------------------------------
 " git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-if has(("win32") || has("win64"))
+if (has("win32") || has("win64"))
 	set rtp+=$VIM/vimfiles/bundle/vundle/
 	call vundle#rc('$VIM/vimfiles/bundle/')
 elseif has("unix")
