@@ -32,8 +32,10 @@ set smartindent
 "set noswapfile
 "set noundofile
 "set nobackup
-set undodir=$VIM/undodir " store.un~ file in the specified dir.
-set backupdir=$VIM/backupdir
+if (has("win32") || has("win64"))
+	set undodir=$VIM/undodir " store.un~ file in the specified dir.
+	set backupdir=$VIM/backupdir
+endif
 
 set number " show line number
 set confirm " pop hint
@@ -56,13 +58,21 @@ if has("gui_running")
 	set guioptions-=r
 	set guioptions-=b
 	" set showtabline=0
-	set guifont=courier_new:h12:b:cDEFAULT
+	if (has("win32") || has("win64"))
+		set guifont=courier_new:h12:b:cDEFAULT
+	endif
 endif
 
 
 " ------------------------------ Vundle Settings ------------------------------
-set rtp+=$VIM/vimfiles/bundle/vundle/
-call vundle#rc('$VIM/vimfiles/bundle/')
+" git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+if has(("win32") || has("win64"))
+	set rtp+=$VIM/vimfiles/bundle/vundle/
+	call vundle#rc('$VIM/vimfiles/bundle/')
+elseif has("unix")
+	set rtp+=~/.vim/bundle/vundle/
+	call vundle#rc('~/.vim/bundle/')
+endif
 Bundle 'gmarik/vundle'
 
 " NerdTree
@@ -116,11 +126,11 @@ map <C-K><C-T> :GenTocGFM<CR>
 
 " plantUML
 if 0
-Bundle 'aklt/plantuml-syntax'
-let g:plantuml_executable_script='java -jar E:\Program Files\plantUML\plantuml.jar'
-nnoremap <F5> :w<CR> :silent make<CR>
-inoremap <F5> <Esc>:w<CR>:silent make<CR>
-vnoremap <F5> :<C-U>:w<CR>:silent make<CR>
+	Bundle 'aklt/plantuml-syntax'
+	let g:plantuml_executable_script='java -jar E:\Program Files\plantUML\plantuml.jar'
+	nnoremap <F5> :w<CR> :silent make<CR>
+	inoremap <F5> <Esc>:w<CR>:silent make<CR>
+	vnoremap <F5> :<C-U>:w<CR>:silent make<CR>
 endif
 
 "------------------------------ Original Configures ---------------------------
