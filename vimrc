@@ -1,27 +1,27 @@
-" Vim Version 8.0
+" For vim 8.0
 
 colorscheme evening
-set nocompatible "use vim keyboard mod
+set nocompatible    "use vim keyboard mod
 
-" Set Tab. 
-" Tab is shown as '^I' when run ':set list'.
+" Set Tab. Tab is shown as '^I' when run ':set list'.
 " If you want to see more key notations, you can type ':help tab'.
-set noexpandtab
-" set listchars=tab:>-,space:. "<Tab> will be shown as '>--------',Spaces will be shown as '.' 
-if 0
-	set tabstop=4 " <Tab> width
-	set softtabstop=8 " If you type <Tab> in insert mode, it will insert (softtabstop/tabstop) <Tab>s.
-	set expandtab " Use the appropriate number of spaces to insert a <Tab>.
-endif
+" set noexpandtab
+set listchars=tab:>-,space:.,trail:- "<Tab> will be shown as '>--------',
+                                     " Spaces will be shown as '.'
+ 
+set tabstop=8       " <Tab> width
+set softtabstop=8   " When type <Tab> in insert mode, it will insert 
+                    " (softtabstop/tabstop) <Tab>s.
+set expandtab       " Use the appropriate number of spaces to insert a <Tab>.
 
 " set keyboard mapping
 map <F12> gg=G
 
 " set four encodings
-set encoding=utf-8 " buffer
-set fileencoding=utf-8 " edit file
-set fileencodings=ucs-bom,utf-8,cp936,latin1 " try those encodings when open an exist file
-set termencoding=utf-8 "terminal
+set encoding=utf-8                           " buffer
+set fileencoding=utf-8                       " edit file
+set fileencodings=utf-8,cp936,ucs-bom,latin1 " try them, when open an exist file
+set termencoding=utf-8                       " terminal
 
 set ff=unix "file plantform
 
@@ -31,31 +31,33 @@ filetype plugin on "Enable loading the plugin files for specific file types
 filetype indent on "Enable loading the indent file for specific file type
 syntax on
 set smartindent
+
 "set noswapfile
 "set noundofile
 "set nobackup
+
 if (has("win32") || has("win64"))
 	set undodir=$VIM/undodir " store.un~ file in the specified dir.
 	set backupdir=$VIM/backupdir
 endif
 
-set number " show line number
-set confirm " pop hint
-set autoread " check outside change
-set showmatch " show match, [] {}
+set number        " show line number
+set confirm       " pop hint
+set autoread      " check outside change
+set showmatch     " show match, [] {}
 set foldenable
 set showcmd
 set autoindent
-set cursorline " highlight current line 
+set cursorline    " highlight current line 
 "set cursorcolumn " highlight current colum
 set colorcolumn=80
 highlight ColorColumn ctermbg=235 guibg=#2c2d27
 
-" Set up GUI
+" Set GUI
 if has("gui_running")
 	au GUIEnter * simalt ~x " max window
-	set guioptions-=m " menu bar
-	set guioptions-=T " tools bar
+	set guioptions-=m       " menu bar
+	set guioptions-=T       " tools bar
 	set guioptions-=L
 	set guioptions-=r
 	set guioptions-=b
@@ -135,7 +137,7 @@ if 0
 	vnoremap <F5> :<C-U>:w<CR>:silent make<CR>
 endif
 
-"------------------------------ Original Configures ---------------------------
+"------------------------------ Default Configures ----------------------------
 source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
