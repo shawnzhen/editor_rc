@@ -1,3 +1,5 @@
+" Vim Version 8.0
+
 colorscheme evening
 set nocompatible "use vim keyboard mod
 
