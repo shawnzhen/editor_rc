@@ -1,0 +1,345 @@
+" How to use 'global' command?
+
+"不加载配置文件启动vim
+"vim -u NONE -N
+
+"ag命令可用于搜索文件
+"sudo apt-get install silversearcher-ag
+"Ripgrep也是一款不错的搜索工具，用Rust编写.
+
+" sort命令
+" 排序头文件
+" :1,4sort 按字典序排序头文件
+
+" vim插件的安装位置
+" :set runtimepath?
+
+" 窗口间跳转
+" CTRL+W +[H,J,K,L]
+
+" Basic operations
+" tab标签页
+" 帮助文档 help tab-page-intro
+" :tabnew 新建标签页
+" :tabs 显示已打开标签页的列表
+" :tabc 关闭当前标签页
+" :tabn 移动到下一个标签页
+" :tabp 移动到上一个标签页
+" :tabfirst 移动到第一个标签页
+" :tablast 移动到最后一个标签页
+
+
+" ====Key Mapping====
+" Key prefix: C-X or C-M
+" map -> Normal Mode, Visual Mode, Operator Pending
+" nmap-> Normal Mode
+" vmap-> Visual Mode
+" omap-> Operator Pending
+" map!-> Insert Mode, Command Line
+" imap-> Insert Mode
+" cmap-> Command Line
+
+"vim的<leader>键是'\'
+
+"====tagbar====
+"<CR>          跳到光标下tag所定义的位置，用鼠标双击此tag功能也一样
+"o             在一个新打开的窗口中显示光标下tag
+"<Space>       显示光标下tag的原型定义
+"u             更新taglist窗口中的tag
+"s             更改排序方式，在按名字排序和按出现顺序排序间切换
+"x             taglist窗口放大和缩小，方便查看较长的tag
+"+             打开一个折叠，同zo
+"-             将tag折叠起来，同zc
+"*             打开所有的折叠，同zR
+"=             将所有tag折叠起来，同zM
+"[[            跳到前一个文件
+"]]            跳到后一个文件
+"q             关闭taglist窗口
+"<F1>          显示帮助 
+
+"Set the path for the 'find' command. And 'gf' command can be used.
+set path+=/usr/local/include
+set path+=/usr/include
+
+"C++ header
+set path+=/usr/include/x86_64-linux-gnu/c++/8
+set path+=/usr/include/c++/8
+set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include
+set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed
+set path+=/usr/include/c++/8/backward
+
+"C header
+set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include
+set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed
+
+"Project
+"Zephyr Project
+set path+=/home/zhen/zephyrproject/zephyr
+set path+=/home/zhen/zephyrproject/zephyr/include
+
+
+" Basic setting
+colorscheme evening
+set nocompatible
+
+"modify the <leader>
+"let mapleader=","
+
+set mouse=v
+
+syntax on
+set number         " show line number
+set confirm        " pop hint
+set autoread       " check outside change
+set showmatch      " show match, [] {}
+set foldenable
+set showcmd
+set cmdheight=1
+set autoindent
+set smartindent
+"issue: Cause Xorg high CPU load
+"set cursorline    " highlight current line 
+"set cursorcolumn  " highlight current colum
+set colorcolumn=80
+"highlight ColorColumn ctermbg=235 guibg=#2c2d27
+"hi Visual term=reverse cterm=reverse guibg=Grey
+
+set ruler
+"Allow backspacing
+set backspace=indent,eol,start
+
+autocmd insertLeave * se nocul
+autocmd InsertEnter * se cul
+
+
+"Highlight the search result
+":nohl cancel highlight
+set incsearch
+set hlsearch
+
+
+" Configure the GUI
+if has('gui_running')
+    map <C-X><C-S> :browse confirm w<CR>
+endif
+
+" Tabs
+map <C-X><C-T> :tabnew <CR>
+map <C-X><C-N> :tabn <CR>
+map <C-X><C-P> :tabp <CR>
+
+"格式化
+map <F12> gg=G
+
+"Tab is shown as '^I' when run ':set list'.
+"If you want to see more key notations, you can type ':help tab'.
+set noexpandtab
+"set listchars=tab:>-,space:. "<Tab> will be shown as '>--------',Spaces will be shown as '.' 
+
+set tabstop=4     " <Tab> width
+set softtabstop=4 " If you type <Tab> in insert mode, it will insert (softtabstop/tabstop) <Tab>s.
+set shiftwidth=4  " 决定缩进量
+set expandtab     " Use the appropriate number of spaces to insert a <Tab>.
+
+"Set the four encodings
+set encoding=utf-8     " buffer
+set fileencoding=utf-8 " edit file
+"Try those encodings when open an exist file
+set fileencodings=ucs-bom,utf-8,cp936,latin1 
+set termencoding=utf-8 "terminal
+
+set ff=unix "file plantform
+
+"filetype plugin indent on "This command is short for the three commands below 
+filetype on        "Enable file type detection(by file name or the contents)
+filetype plugin on "Enable loading the plugin files for specific file types
+filetype indent on "Enable loading the indent file for specific file type
+
+"set noswapfile
+"set noundofile
+"set nobackup
+
+set undodir=$HOME/.vim/.undo
+set backupdir=$HOME/.vim/.backup
+
+"打开文件后光标处于上次退出的位置
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+
+" set up gui
+if has("gui_running")
+    au GUIEnter * simalt ~x " max window
+    set guioptions-=m " menu bar
+    set guioptions-=T " tools bar
+    set guioptions-=L
+    set guioptions-=r
+    set guioptions-=b
+    " set showtabline=0
+    set guifont=courier_new:h16:b:cDEFAULT
+endif
+
+" Plugin manager: vim-plug
+":PlugInstall
+":PlugClean
+call plug#begin('~/.vim/plugged')
+    Plug 'preservim/nerdtree'
+    Plug 'majutsushi/tagbar'
+    Plug 'Valloric/YouCompleteMe'
+    Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
+    Plug 'dense-analysis/ale'
+    Plug 'brookhong/cscope.vim'
+    Plug 'tpope/vim-fugitive'
+    Plug 'Lokaltog/vim-powerline' 
+    "Plug 'powerline/powerline'
+    Plug 'rust-lang/rust.vim'
+    Plug 'rdnetto/YCM-Generator'
+    Plug 'tamlok/a.vim'
+    Plug 'SirVer/ultisnips'
+    Plug 'preservim/nerdcommenter'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+call plug#end()
+
+"============A============"
+" a.vim[https://www.vim.org/scripts/script.php?script_id=31]
+" A在新的buffer中切换到c/h文件
+" AS横向分割窗口，并打开c/h文件
+" AV纵向分割窗口并打开c/h文件
+" AT新建一个标签页并打开对应的c/h文件
+" 切换标签页：gt/gT
+let g:alternateSearchPath='sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
+
+"========You Complete Me========"
+" Ctrl + Space triger complete
+let g:ycm_confirm_extra_conf = 0 "No inquiry
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py' 
+
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+
+"Disable ycm syntastic, because we want to use ALE later
+":YcmDiags see errors or warnings detected in your file
+let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_error_symbol = 'e'
+let g:ycm_warning_symbol = 'w'
+
+"关闭预览窗口
+"set completeopt=menu
+
+"=========ALE========"
+"Asynchronous Lint Engine
+"compile_commands.json 
+let g:ale_sig_colum_always = 0
+let g:ale_set_highlights = 1
+
+let g:ale_sign_error = 'E'
+let g:ale_sign_warning = 'W'
+
+let g:ale_linters_explicit = 1
+let g:ale_completion_delay = 500
+let g:ale_echo_delay = 20
+let g:ale_lint_delay = 500
+" Lint manually, :ALELint
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_save = 1
+let g:airline#extensions#ale#enabled = 1
+
+let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+let g:ale_c_cppcheck_options = ''
+let g:ale_cpp_cppcheck_options = ''
+
+let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_linters = {'c':['clang'],'c++':['clang']}
+
+"========Nerd tree========"
+"r刷新目录
+let NERDTreeWinPos='left'
+let NERDTreeWinSize=30
+"不显示项目树上额外的信息，例如帮助、提示什么的
+let NERDTreeMinimalUI=1
+let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules'] "ignore files in NERDTree
+"不显示隐藏的文件
+let g:NERDTreeHidden=0
+
+"Ctrl+N 打开/关闭
+map <leader>nt :NERDTreeToggle<CR>
+"当不带参数打开Vim时自动加载项目树
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"当所有文件关闭时关闭项目树窗格
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+"========Git========"
+set statusline+=%{fugitive#statusline()} "git hotness
+
+"========Status bar========"
+"set rtp+=/usr/lib/python3/dist-packages/powerline/bindings/vim
+set laststatus=2 "always display the status line
+set t_Co=256    "用XShell时，导致Visual模式无反色
+
+"========ctags========"
+"apt install ctags
+"ctags的基本用法
+":!ctags -R生成tag文件
+"ctrl + ] jump to the defination
+"ctrl + o jump back
+"缺点：修改代码后需要重新生成tags
+
+"========tagbar========"
+"tagbar是taglist的替代品,比taglist更适合C++使用，支持按类折叠
+if has('unix')
+    let g:tagbar_ctags_bin='/usr/bin/ctags'
+elseif has('win32') || has('win64')
+    let g:tagbar_ctags_bin='$VIM\tools\ctags58\ctags.exe'
+endif
+
+nmap <leader>tb :TagbarToggle<CR>
+let g:tagbar_left=1
+let g:tagbar_width=30
+let g:tagbar_autofocus=0
+let g:tagbar_sort=1
+"自动打开tagbar
+autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()
+
+"How to use cscope
+":cs show
+set cscopequickfix=s-,d-,i-,t-,e-
+
+"使用gtags-scope代替cscope
+set cscopetag
+set cscopeprg='gtags-cscope' 
+
+let GtagsCscope_Auto_Load = 1
+let CtagsCscope_Auto_Map = 1
+let GtagsCscope_Quiet = 1
+let gtags_file=findfile("GTAGS", ";") "查找gtags文件
+
+if !empty(gtags_file)
+   exe "cs add" gtags_file
+endif
+
+"========vim rust========"
+let g:rustfmt_autosave = 1
+
+"========LeaderF========"
+"An effective fuzzy finder that helps to locate files, buffers, mrus,
+"gtags,etc.
+":Leaderf -h
+"基本用法，在任何目录下，按<leader>f，输入希望查找的文件，回车
+
+
+"========fzf========"
+nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+nnoremap <silent> <c-p> :Files <CR>
+
+"========nerd commenter========"
+"<leader>cc 注释当前行
+"<leader>cu 取消注释
+"
+
+"source $VIMRUNTIME/mswin.vim
+"behave mswin
+

@@ -1,2 +1,0 @@
-# vimrc
-A vimrc file.
