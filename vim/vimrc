@@ -2,6 +2,9 @@
 " Ubuntu/debian
 " sudo apt-get install silversearcher-ag
 
+" mkdir ~/.vimr/.undo
+" mkdir ~/.vim/.backup
+
 " How to use 'global' command?
 
 "不加载配置文件启动vim
