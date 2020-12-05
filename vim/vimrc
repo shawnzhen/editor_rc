@@ -1,3 +1,7 @@
+" Install the necessary packages
+" Ubuntu/debian
+" sudo apt-get install silversearcher-ag
+
 " How to use 'global' command?
 
 "不加载配置文件启动vim
