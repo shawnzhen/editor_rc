@@ -3,20 +3,31 @@
 " sudo apt-get install silversearcher-ag
 " sudo apt-get install fonts-powerline
 
+" vimdiff命令
+" ========
+" 跳转到下一个diff点：]c
+" 跳转到上一个diff点：[c
+" 两个文件间切换：ctrl+w
+" 将当前文件的差异内容复制到另一个文件里：dp
+" 将另一个文件的内容复制到当前文件里：do
+" 刷新文件：diffupdate
+" 打开折叠代码：zo
+" 重新折叠代码：zc
 
 " mkdir ~/.vimr/.undo
 " mkdir ~/.vim/.backup
 
-"不加载配置文件启动vim
-"vim -u NONE -N
+" 不加载配置文件启动vim
+" vim -u NONE -N
 
-"YCM_generator
-"============
-"Run ./config_gen.py PROJECT_DIRECTORY
+" YCM_generator
+" ============
+" Run ./config_gen.py PROJECT_DIRECTORY
 
-"ag命令可用于搜索文件
-"sudo apt-get install silversearcher-ag
-"Ripgrep也是一款不错的搜索工具，用Rust编写.
+" ag命令可用于搜索文件
+" ========
+" sudo apt-get install silversearcher-ag
+" Ripgrep也是一款不错的搜索工具，用Rust编写.
 
 " sort命令
 " ========
@@ -42,7 +53,6 @@
 " :tabfirst 移动到第一个标签页
 " :tablast 移动到最后一个标签页
 
-
 " ====Key Mapping====
 " Key prefix: C-X or C-M
 " map -> Normal Mode, Visual Mode, Operator Pending
@@ -53,36 +63,36 @@
 " imap-> Insert Mode
 " cmap-> Command Line
 
-"vim的<leader>键是'\'
+" vim的<leader>键是'\'
 
-"====tagbar====
-"<CR>          跳到光标下tag所定义的位置，用鼠标双击此tag功能也一样
-"o             在一个新打开的窗口中显示光标下tag
-"<Space>       显示光标下tag的原型定义
-"u             更新taglist窗口中的tag
-"s             更改排序方式，在按名字排序和按出现顺序排序间切换
-"x             taglist窗口放大和缩小，方便查看较长的tag
-"+             打开一个折叠，同zo
-"-             将tag折叠起来，同zc
-"*             打开所有的折叠，同zR
-"=             将所有tag折叠起来，同zM
-"[[            跳到前一个文件
-"]]            跳到后一个文件
-"q             关闭taglist窗口
-"<F1>          显示帮助 
+" ====tagbar====
+" <CR>          跳到光标下tag所定义的位置，用鼠标双击此tag功能也一样
+" o             在一个新打开的窗口中显示光标下tag
+" <Space>       显示光标下tag的原型定义
+" u             更新taglist窗口中的tag
+" s             更改排序方式，在按名字排序和按出现顺序排序间切换
+" x             taglist窗口放大和缩小，方便查看较长的tag
+" +             打开一个折叠，同zo
+" -             将tag折叠起来，同zc
+" *             打开所有的折叠，同zR
+" =             将所有tag折叠起来，同zM
+" [[            跳到前一个文件
+" ]]            跳到后一个文件
+" q             关闭taglist窗口
+" <F1>          显示帮助 
 
-"Set the path for the 'find' command. And 'gf' command can be used.
+" Set the path for the 'find' command. And 'gf' command can be used.
 set path+=/usr/local/include
 set path+=/usr/include
 
-"C++ header
+" C++ header
 set path+=/usr/include/x86_64-linux-gnu/c++/8
 set path+=/usr/include/c++/8
 set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include
 set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed
 set path+=/usr/include/c++/8/backward
 
-"C header
+" C header
 set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include
 set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed
 
@@ -90,8 +100,8 @@ set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed
 colorscheme evening
 set nocompatible
 
-"modify the <leader>
-"let mapleader=","
+" modify the <leader>
+" let mapleader=","
 
 set mouse=v
 
@@ -106,12 +116,12 @@ set cmdheight=1
 set autoindent
 set smartindent
 
-"Configure the cursor
-"光标和字体受所用终端的配置的影响
+" Configure the cursor
+" 光标和字体受所用终端的配置的影响
 
-"Configure the cursor line
-"issue: Cause Xorg high CPU load
-"highlight current line
+" Configure the cursor line
+" issue: Cause Xorg high CPU load
+" highlight current line
 set cursorline    " highlight current line
 highlight CursorLine cterm=bold ctermbg=237 ctermfg=NONE guibg=NONE guifg=NONE 
 
@@ -137,7 +147,6 @@ autocmd InsertEnter * se cul
 ":nohl cancel highlight
 set incsearch
 set hlsearch
-
 
 " Configure the GUI
 if has('gui_running')
