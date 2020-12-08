@@ -1,20 +1,25 @@
 " Install the necessary packages
 " Ubuntu/debian
 " sudo apt-get install silversearcher-ag
+" sudo apt-get install fonts-powerline
+
 
 " mkdir ~/.vimr/.undo
 " mkdir ~/.vim/.backup
 
-" How to use 'global' command?
-
 "不加载配置文件启动vim
 "vim -u NONE -N
+
+"YCM_generator
+"============
+"Run ./config_gen.py PROJECT_DIRECTORY
 
 "ag命令可用于搜索文件
 "sudo apt-get install silversearcher-ag
 "Ripgrep也是一款不错的搜索工具，用Rust编写.
 
 " sort命令
+" ========
 " 排序头文件
 " :1,4sort 按字典序排序头文件
 
@@ -22,9 +27,11 @@
 " :set runtimepath?
 
 " 窗口间跳转
+" ==========
 " CTRL+W +[H,J,K,L]
 
 " Basic operations
+" ================
 " tab标签页
 " 帮助文档 help tab-page-intro
 " :tabnew 新建标签页
@@ -79,12 +86,6 @@ set path+=/usr/include/c++/8/backward
 set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include
 set path+=/usr/lib/gcc/x86_64-linux-gnu/8/include-fixed
 
-"Project
-"Zephyr Project
-set path+=/home/zhen/zephyrproject/zephyr
-set path+=/home/zhen/zephyrproject/zephyr/include
-
-
 " Basic setting
 colorscheme evening
 set nocompatible
@@ -104,11 +105,24 @@ set showcmd
 set cmdheight=1
 set autoindent
 set smartindent
+
+"Configure the cursor
+"光标和字体受所用终端的配置的影响
+
+"Configure the cursor line
 "issue: Cause Xorg high CPU load
-"set cursorline    " highlight current line 
+"highlight current line
+set cursorline    " highlight current line
+highlight CursorLine cterm=bold ctermbg=237 ctermfg=NONE guibg=NONE guifg=NONE 
+
+"autocmd InsertEnter * se cul
+"autocmd InsertLeave * se nocul
+
 "set cursorcolumn  " highlight current colum
-set colorcolumn=80
 "highlight ColorColumn ctermbg=235 guibg=#2c2d27
+
+set colorcolumn=80
+
 "hi Visual term=reverse cterm=reverse guibg=Grey
 
 set ruler
@@ -233,6 +247,7 @@ let g:ycm_warning_symbol = 'w'
 "关闭预览窗口
 "set completeopt=menu
 
+
 "=========ALE========"
 "Asynchronous Lint Engine
 "compile_commands.json 
@@ -265,7 +280,7 @@ let g:ale_linters = {'c':['clang'],'c++':['clang']}
 "r刷新目录
 let NERDTreeWinPos='left'
 let NERDTreeWinSize=30
-"不显示项目树上额外的信息，例如帮助、提示什么的
+"不显示项目树上额外的信息，例如帮助、提示等
 let NERDTreeMinimalUI=1
 let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules'] "ignore files in NERDTree
 "不显示隐藏的文件
@@ -308,6 +323,7 @@ let g:tagbar_left=1
 let g:tagbar_width=30
 let g:tagbar_autofocus=0
 let g:tagbar_sort=1
+let g:tagbar_autopreview=1
 "自动打开tagbar
 autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()
 
@@ -345,8 +361,6 @@ nnoremap <silent> <c-p> :Files <CR>
 "========nerd commenter========"
 "<leader>cc 注释当前行
 "<leader>cu 取消注释
-"
 
 "source $VIMRUNTIME/mswin.vim
 "behave mswin
-
