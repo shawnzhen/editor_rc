@@ -1,7 +1,18 @@
+" 存在的问题
+" Normal模式下当前行不会高亮
+" debian10下面Visual模式下的选取不会反色
+
 " Install the necessary packages
 " Ubuntu/debian
 " sudo apt-get install silversearcher-ag
 " sudo apt-get install fonts-powerline
+" sudo apt install doxygen
+
+" DoxygenToolkit基本用法
+" 函数注释 :Dox
+" 文件头 :DoxAuthor
+" 添加版权 :DoxLic
+
 
 " vimdiff命令
 " ========
@@ -24,10 +35,15 @@
 " ============
 " Run ./config_gen.py PROJECT_DIRECTORY
 
-" ag命令可用于搜索文件
+" 文件搜索工具
 " ========
+" ag命令可用于搜索文件
 " sudo apt-get install silversearcher-ag
 " Ripgrep也是一款不错的搜索工具，用Rust编写.
+
+" 模糊查找工具
+" ========
+" FZF和LeaderF
 
 " sort命令
 " ========
@@ -44,6 +60,7 @@
 " Basic operations
 " ================
 " tab标签页
+" --------
 " 帮助文档 help tab-page-intro
 " :tabnew 新建标签页
 " :tabs 显示已打开标签页的列表
@@ -52,6 +69,15 @@
 " :tabp 移动到上一个标签页
 " :tabfirst 移动到第一个标签页
 " :tablast 移动到最后一个标签页
+
+" 选中光标所在行：V
+" 选中全部文本：ggVG
+" 向下翻一页C-f，向上翻一页C-b
+" 向上翻半屏C-u，向下翻半屏C-d
+" 删除光标所在单词：daw
+
+" --------
+" 跳转到局部变量的定义处：gD
 
 " ====Key Mapping====
 " Key prefix: C-X or C-M
@@ -121,7 +147,6 @@ set smartindent
 
 " Configure the cursor line
 " issue: Cause Xorg high CPU load
-" highlight current line
 set cursorline    " highlight current line
 highlight CursorLine cterm=bold ctermbg=237 ctermfg=NONE guibg=NONE guifg=NONE 
 
@@ -189,12 +214,13 @@ filetype indent on "Enable loading the indent file for specific file type
 "set noundofile
 "set nobackup
 
+set undofile
+
 set undodir=$HOME/.vim/.undo
 set backupdir=$HOME/.vim/.backup
 
 "打开文件后光标处于上次退出的位置
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
 
 " set up gui
 if has("gui_running")
@@ -216,6 +242,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'majutsushi/tagbar'
     Plug 'Valloric/YouCompleteMe'
     Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'dense-analysis/ale'
     Plug 'brookhong/cscope.vim'
     Plug 'tpope/vim-fugitive'
@@ -226,8 +253,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'tamlok/a.vim'
     Plug 'SirVer/ultisnips'
     Plug 'preservim/nerdcommenter'
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-call plug#end()
+    Plug 'luochen1990/rainbow'
+    Plug 'jiangmiao/auto-pairs'
+    Plug 'tpope/vim-surround'
+    Plug 'vim-scripts/DoxygenToolkit.vim'
+    "Plug 'taketwo/vim-ros'
+    call plug#end()
 
 "============A============"
 " a.vim[https://www.vim.org/scripts/script.php?script_id=31]
@@ -254,7 +285,7 @@ let g:ycm_error_symbol = 'e'
 let g:ycm_warning_symbol = 'w'
 
 "关闭预览窗口
-"set completeopt=menu
+set completeopt=menu
 
 
 "=========ALE========"
@@ -309,7 +340,7 @@ set statusline+=%{fugitive#statusline()} "git hotness
 "========Status bar========"
 "set rtp+=/usr/lib/python3/dist-packages/powerline/bindings/vim
 set laststatus=2 "always display the status line
-set t_Co=256    "用XShell时，导致Visual模式无反色
+set t_Co=256
 
 "========ctags========"
 "apt install ctags
@@ -333,6 +364,8 @@ let g:tagbar_width=30
 let g:tagbar_autofocus=0
 let g:tagbar_sort=1
 let g:tagbar_autopreview=1
+" 不显示help信息
+let g:tagbar_compact = 1
 "自动打开tagbar
 autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()
 
@@ -356,6 +389,7 @@ endif
 "========vim rust========"
 let g:rustfmt_autosave = 1
 
+
 "========LeaderF========"
 "An effective fuzzy finder that helps to locate files, buffers, mrus,
 "gtags,etc.
@@ -370,6 +404,28 @@ nnoremap <silent> <c-p> :Files <CR>
 "========nerd commenter========"
 "<leader>cc 注释当前行
 "<leader>cu 取消注释
+
+" Rainbow
+" ========
+" Enable the rainbow
+let g:rainbow_active = 1
+
+" Doxygen toolkit
+" ========
+let g:DoxygenToolkit_briefTag_pre="@brief "
+let g:DoxygenToolkit_paramTag_pre="@param "
+let g:DoxygenToolkit_returnTag="@returns   "
+"let g:DoxygenToolkit_blockHeader="--"
+"let g:DoxygenToolkit_blockFooter="--"
+let g:DoxygenToolkit_authorName="zhenshuo"
+
+let g:DoxygenToolkit_briefTag_funcName="no" 
+let g:doxygen_enhanced_color=1 
+"let g:DoxygenToolkit_commentType="C++" 
+let g:DoxygenToolkit_classTag = "@class " 
+
+"let g:DoxygenToolkit_licenseTag=""   <-- !!! Does not end with "\<enter>"
+
 
 "source $VIMRUNTIME/mswin.vim
 "behave mswin
