@@ -405,6 +405,10 @@ nnoremap <silent> <c-p> :Files <CR>
 "<leader>cc 注释当前行
 "<leader>cu 取消注释
 
+" ========rust========"
+" :rustfmt
+let g:rustfmt_autosave = 1 " automatic run rustfmt
+
 " Rainbow
 " ========
 " Enable the rainbow
