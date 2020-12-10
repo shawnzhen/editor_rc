@@ -107,7 +107,12 @@
 " q             关闭taglist窗口
 " <F1>          显示帮助 
 
+" 查看GCC的搜索目录：（gcc --help）
+" 查看编译c++文件使用的头文件目录的命令为：`gcc -print-prog-name=cc1plus` -v
+" 查看编译c文件的头文件搜索目录的命令为 `gcc -print-prog-name=cc1` -v
+
 " Set the path for the 'find' command. And 'gf' command can be used.
+"#include <...> search directories:
 set path+=/usr/local/include
 set path+=/usr/include
 
