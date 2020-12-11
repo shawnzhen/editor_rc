@@ -2,11 +2,18 @@
 " Normal模式下当前行不会高亮
 " debian10下面Visual模式下的选取不会反色
 
+" 不加载配置文件启动vim
+" vim -u NONE -N
+
 " Install the necessary packages
 " Ubuntu/debian
-" sudo apt-get install silversearcher-ag
-" sudo apt-get install fonts-powerline
+" sudo apt install silversearcher-ag
+" sudo apt install fonts-powerline
 " sudo apt install doxygen
+" sudo apt install global 
+
+" mkdir ~/.vimr/.undo
+" mkdir ~/.vim/.backup
 
 " DoxygenToolkit基本用法
 " 函数注释 :Dox
@@ -24,12 +31,6 @@
 " 刷新文件：diffupdate
 " 打开折叠代码：zo
 " 重新折叠代码：zc
-
-" mkdir ~/.vimr/.undo
-" mkdir ~/.vim/.backup
-
-" 不加载配置文件启动vim
-" vim -u NONE -N
 
 " YCM
 " ========
@@ -194,11 +195,11 @@ map <C-X><C-T> :tabnew <CR>
 map <C-X><C-N> :tabn <CR>
 map <C-X><C-P> :tabp <CR>
 
-"格式化
+" 格式化
 map <F12> gg=G
 
-"Tab is shown as '^I' when run ':set list'.
-"If you want to see more key notations, you can type ':help tab'.
+" Tab is shown as '^I' when run ':set list'.
+" If you want to see more key notations, you can type ':help tab'.
 set noexpandtab
 "set listchars=tab:>-,space:. "<Tab> will be shown as '>--------',Spaces will be shown as '.' 
 
@@ -207,10 +208,10 @@ set softtabstop=4 " If you type <Tab> in insert mode, it will insert (softtabsto
 set shiftwidth=4  " 决定缩进量
 set expandtab     " Use the appropriate number of spaces to insert a <Tab>.
 
-"Set the four encodings
+" Set the four encodings
 set encoding=utf-8     " buffer
 set fileencoding=utf-8 " edit file
-"Try those encodings when open an exist file
+" Try those encodings when open an exist file
 set fileencodings=ucs-bom,utf-8,cp936,latin1 
 set termencoding=utf-8 "terminal
 
@@ -268,6 +269,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'jiangmiao/auto-pairs'
     Plug 'tpope/vim-surround'
     Plug 'vim-scripts/DoxygenToolkit.vim'
+    Plug 'vim-scripts/gtags.vim'
 call plug#end()
 
 "============A============"
@@ -296,12 +298,12 @@ let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_error_symbol = 'e'
 let g:ycm_warning_symbol = 'w'
 
-"关闭预览窗口
+" 关闭预览窗口
 set completeopt=menu
 
 
 "=========ALE========"
-"Asynchronous Lint Engine
+" Asynchronous Lint Engine
 "compile_commands.json 
 let g:ale_sig_colum_always = 0
 let g:ale_set_highlights = 1
@@ -328,8 +330,8 @@ let g:ale_echo_msg_format = '[%linter%] %code: %%s'
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {'c':['clang'],'c++':['clang']}
 
-"========Nerd tree========"
-"r刷新目录
+" ========Nerd tree========"
+" r刷新目录
 let NERDTreeWinPos='left'
 let NERDTreeWinSize=30
 "不显示项目树上额外的信息，例如帮助、提示等
@@ -338,7 +340,7 @@ let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules'] "ignore files in NERDTree
 "不显示隐藏的文件
 let g:NERDTreeHidden=0
 
-"Ctrl+N 打开/关闭
+" Ctrl+N 打开/关闭
 map <leader>nt :NERDTreeToggle<CR>
 "当不带参数打开Vim时自动加载项目树
 autocmd StdinReadPre * let s:std_in=1
@@ -346,21 +348,21 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 "当所有文件关闭时关闭项目树窗格
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-"========Git========"
+" ========Git========"
 set statusline+=%{fugitive#statusline()} "git hotness
 
-"========Status bar========"
+" ========Status bar========"
 "set rtp+=/usr/lib/python3/dist-packages/powerline/bindings/vim
 set laststatus=2 "always display the status line
 set t_Co=256
 
-"========ctags========"
-"apt install ctags
-"ctags的基本用法
-":!ctags -R生成tag文件
-"ctrl + ] jump to the defination
-"ctrl + o jump back
-"缺点：修改代码后需要重新生成tags
+" ========ctags========"
+" apt install ctags
+" ctags的基本用法
+" :!ctags -R生成tag文件
+" ctrl + ] jump to the defination
+" ctrl + o jump back
+" 缺点：修改代码后需要重新生成tags
 
 "========tagbar========"
 "tagbar是taglist的替代品,比taglist更适合C++使用，支持按类折叠
@@ -441,6 +443,10 @@ let g:doxygen_enhanced_color=1
 let g:DoxygenToolkit_classTag = "@class " 
 
 "let g:DoxygenToolkit_licenseTag=""   <-- !!! Does not end with "\<enter>"
+
+" gtags
+" ========
+" https://www.gnu.org/software/global/
 
 
 "source $VIMRUNTIME/mswin.vim
