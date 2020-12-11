@@ -31,6 +31,12 @@
 " 不加载配置文件启动vim
 " vim -u NONE -N
 
+" YCM
+" ========
+" -- NOT using libclang, no semantic completion for C/C++/ObjC will be available
+" -- NOT using clang-tidy for static analysis.
+
+
 " YCM_generator
 " ============
 " Run ./config_gen.py PROJECT_DIRECTORY
@@ -262,8 +268,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'jiangmiao/auto-pairs'
     Plug 'tpope/vim-surround'
     Plug 'vim-scripts/DoxygenToolkit.vim'
-    "Plug 'taketwo/vim-ros'
-    call plug#end()
+call plug#end()
 
 "============A============"
 " a.vim[https://www.vim.org/scripts/script.php?script_id=31]
@@ -275,9 +280,11 @@ call plug#begin('~/.vim/plugged')
 let g:alternateSearchPath='sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
 
 "========You Complete Me========"
-" Ctrl + Space triger complete
-let g:ycm_confirm_extra_conf = 0 "No inquiry
-let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py' 
+let g:ycm_min_num_identifier_candidate_chars = 3
+let g:ycm_key_invoke_completion = '<c-z>'
+let g:ycm_confirm_extra_conf = 1    " 0: No inquiry
+let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py' 
+"let g:ycm_server_log_level = 'debug'
 
 let g:ycm_complete_in_comments = 1
 let g:ycm_complete_in_strings = 1

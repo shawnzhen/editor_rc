@@ -13,8 +13,15 @@ mx设置书签，x只能是a-z的字母
 ycm可以基于clangd实现C/C++代码的补全！
 clangd是基于compile_commands.json文件来完成对项目的解析，并支持代码补全和跳转。
 
-# 配置ycm的语义补全
+# You Complete Me
+编译ycm：python3 install.py --clangd-completer
 
+Clangd completer enabled. If you are using .ycm_extra_conf.py files, make sure 
+they use Settings() instead of the old and deprecated FlagsForFile().
+
+## vim不加载.ycm_extra_conf.py的原因？
+用--clangd-completer编译ycm后，可加载配置文件。
+加载vimrc中指定的配置时，不会提示吗？
 
 # global命令的使用[https://www.gnu.org/software/global/globaldoc_toc.html]
 global -r fun2 #查找引用
