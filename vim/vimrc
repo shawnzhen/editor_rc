@@ -2,7 +2,10 @@
 " Normal模式下当前行不会高亮
 " debian10下面Visual模式下的选取不会反色
 
-" 用LeaderF来显示函数列表？取代tagbar？
+" 问题：
+" (1) 用LeaderF来显示函数列表？取代tagbar？
+" (2) 如何查找一个函数的引用位置？
+" (3) 如何分组管理插件？
 
 " 不加载配置文件启动vim
 " vim -u NONE -N
@@ -24,6 +27,19 @@
 " Ctrl-]直接在当前窗口跳转到定义
 " Ctrl-W]用新窗口打开并查看光标下符号的定义
 " Ctrl-W}使用preview窗口预览光标下符号的定义
+" Ctrl-o退回
+" Ctrl-i返回
+
+" quickfix是vim内置的插件，用于浏览命令执行结果信息。
+" :cc
+" :cp 跳到上一个错误
+" :cn 跳到下一个错误
+" :cl 列出所有的错误
+" :cw 如果有错误列表，则打开
+" :copen [line count]打开
+" :cclose 关闭
+" :cnew 到后一个新列表
+" :cold[er] 到前一个旧列表
 
 " vimdiff命令
 " ========
@@ -80,7 +96,14 @@
 " :tabp 移动到上一个标签页
 " :tabfirst 移动到第一个标签页
 " :tablast 移动到最后一个标签页
+" :gt打开下一个标签页
+" :gT上一个
+" :tabo[nly]仅保留当前tab
+" :tabc[lose]关闭当前标签
+" :tabfir[st]打开第一个标签页
 
+
+" --------
 " 选中光标所在行：V
 " 选中全部文本：ggVG
 " 向下翻一页C-f，向上翻一页C-b
@@ -123,7 +146,7 @@
 " 查看编译c文件的头文件搜索目录的命令为 `gcc -print-prog-name=cc1` -v
 
 " Set the path for the 'find' command. And 'gf' command can be used.
-"#include <...> search directories:
+" #include <...> search directories:
 set path+=/usr/local/include
 set path+=/usr/include
 
@@ -143,7 +166,8 @@ colorscheme evening
 set nocompatible
 
 " modify the <leader>
-" let mapleader=",
+" let mapleader=","
+
 set mouse=v
 
 syntax on
@@ -175,14 +199,14 @@ set colorcolumn=80
 "hi Visual term=reverse cterm=reverse guibg=Grey
 
 set ruler
-"Allow backspacing
+" Allow backspacing
 set backspace=indent,eol,start
 
 autocmd insertLeave * se nocul
 autocmd InsertEnter * se cul
 
 
-"Highlight the search result
+" Highlight the search result
 ":nohl cancel highlight
 set incsearch
 set hlsearch
@@ -257,12 +281,11 @@ endif
 " :PlugInstall
 " :PlugClean
 " :PlugUpgrade
-" 如何分组管理插件？
 call plug#begin('~/.vim/plugged')
 Plug 'preservim/nerdtree' ", { 'on': 'NERDTreeToggle' }
 Plug 'majutsushi/tagbar'
 Plug 'Valloric/YouCompleteMe'
-Plug 'Yggdroot/LeaderF', {'do': './install.sh'}
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'dense-analysis/ale'
 Plug 'brookhong/cscope.vim'
@@ -280,6 +303,8 @@ Plug 'tpope/vim-surround'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'vim-scripts/gtags.vim'
 "Plug 'ludovicchabant/vim-gutentags'
+Plug 'rking/ag.vim'
+Plug 'christoomey/vim-tmux-navigator'
 
 " text object
 Plug 'kana/vim-textobj-user'
@@ -291,7 +316,7 @@ Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'MattesGroeger/vim-bookmarks'
 call plug#end()
 
-"============A============"
+" ============A============"
 " a.vim[https://www.vim.org/scripts/script.php?script_id=31]
 " A在新的buffer中切换到c/h文件
 " AS横向分割窗口，并打开c/h文件
@@ -300,7 +325,7 @@ call plug#end()
 " 切换标签页：gt/gT
 let g:alternateSearchPath='sfr:../source,sfr:../src,sfr:../include,sfr:../inc'
 
-"========You Complete Me========"
+" ========You Complete Me========"
 let g:ycm_min_num_identifier_candidate_chars = 3
 let g:ycm_key_invoke_completion = '<c-z>'
 let g:ycm_confirm_extra_conf = 0    " 0: No inquiry
@@ -319,7 +344,6 @@ let g:ycm_warning_symbol = 'w'
 
 " 关闭预览窗口
 set completeopt=menu
-
 
 "=========ALE========"
 " Asynchronous Lint Engine
@@ -359,7 +383,6 @@ let NERDTreeIgnore=['\.pyc$', '\~$', 'node_modules'] "ignore files in NERDTree
 "不显示隐藏的文件
 let g:NERDTreeHidden=0
 
-" Ctrl+N 打开/关闭
 map <leader>nt :NERDTreeToggle<CR>
 "当不带参数打开Vim时自动加载项目树
 autocmd StdinReadPre * let s:std_in=1
@@ -377,37 +400,36 @@ set t_Co=256
 
 " ========ctags========"
 " 推荐使用universal Ctags
-" apt install ctags
 " ctags的基本用法
 " :!ctags -R生成tag文件
 " ctrl + ] jump to the defination
 " ctrl + o jump back
 " 缺点：修改代码后需要重新生成tags
 
-"========tagbar========"
-"tagbar是taglist的替代品,比taglist更适合C++使用，支持按类折叠
+" ========tagbar========"
+" tagbar是taglist的替代品,比taglist更适合C++使用，支持按类折叠
+nmap <leader>tb :TagbarToggle<CR>
 if has('unix')
-    let g:tagbar_ctags_bin='/usr/bin/ctags'
+    let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 elseif has('win32') || has('win64')
     let g:tagbar_ctags_bin='$VIM\tools\ctags58\ctags.exe'
 endif
 
-nmap <leader>tb :TagbarToggle<CR>
 let g:tagbar_left = 1
 let g:tagbar_width = 30
 let g:tagbar_autofocus = 0 " 打开tagbar后，光标在tagbar页面
 let g:tagbar_sort = 1
-let g:tagbar_autopreview = 1
+let g:tagbar_autopreview = 0
 let g:tagbar_show_data_type = 1
 let g:tagbar_show_visibility = 1 " 默认是1，显示符号的可见性
 
 " 不显示help信息
 let g:tagbar_compact = 1
 
-"自动打开tagbar
+" 自动打开tagbar
 autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()
 
-" Usage
+" Usage:
 " <CR>: 回车跳到定义位置
 " p: 跳到定义位置，但光标仍然在tagbar原位置
 " P: 打开一个预览窗口显示标签内容
@@ -423,6 +445,7 @@ autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()
 
 " How to use cscope
 " :cs show
+" 命令需要设定才能把执行结果显示到quickfix中。
 set cscopequickfix=s-,d-,i-,t-,e-
 
 " 使用gtags-scope代替cscope
@@ -438,22 +461,29 @@ if !empty(gtags_file)
    exe "cs add" gtags_file
 endif
 
+
+" ========gtags=======
+" https://www.gnu.org/software/global/
+
+
 " ========vim rust========"
 let g:rustfmt_autosave = 1
 
 
 " ========LeaderF========"
-" An effective fuzzy finder that helps to locate files, buffers, mrus,
-" gtags,etc.
+" An effective fuzzy finder that helps to locate files, buffers, mrus, gtags,etc.
 " :Leaderf -h
-" 基本用法，在任何目录下，按<leader>f，输入希望查找的文件，回车
-
+" :Leaderf file <CR>
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
 
 " ========fzf========"
-nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
-nnoremap <silent> <c-p> :Files <CR>
+"nnoremap <silent> <Leader>ag :Ag <C-R><C-W><CR>
+"nnoremap <silent> <c-p> :Files <CR>
 
 " ========nerd commenter========"
+
+" Usage:
 " <leader>cc 注释当前行
 " <leader>cu 取消注释
 
@@ -479,9 +509,6 @@ let g:doxygen_enhanced_color=1
 let g:DoxygenToolkit_classTag = "@class " 
 
 "let g:DoxygenToolkit_licenseTag=""   <-- !!! Does not end with "\<enter>"
-
-" ========gtags=======
-" https://www.gnu.org/software/global/
 
 
 "
@@ -532,9 +559,10 @@ let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 highlight BookmarkSign ctermbg=NONE ctermfg=160
 highlight BookmarkLine ctermbg=237 ctermfg=NONE
 let g:bookmark_sign = '♥'
-let g:bookmark_annotation_sign ='.'
+let g:bookmark_annotation_sign ='='
 let g:bookmark_auto_save = 1
 let g:bookmark_highlight_lines = 1
+"let g:bookmark_location_list = 1
 
 " Usage
 " --------
