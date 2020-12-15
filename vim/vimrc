@@ -1,7 +1,3 @@
-" 存在的问题
-" Normal模式下当前行不会高亮
-" debian10下面Visual模式下的选取不会反色
-
 " 问题：
 " (1) 用LeaderF来显示函数列表？取代tagbar？
 " (2) 如何查找一个函数的引用位置？
@@ -19,6 +15,16 @@
 " mkdir ~/.vimr/.undo
 " mkdir ~/.vim/.backup
 
+" colorscheme
+" term 黑白终端的属性
+" cterm 彩色终端的属性
+" ctermfg 彩色终端的前景色
+" ctermbg 彩色终端背景色
+" gui GUI属性
+" guifg GUI前景色
+" guibg GUI背景色
+
+"
 " DoxygenToolkit基本用法
 " 函数注释 :Dox
 " 文件头 :DoxAuthor
@@ -182,29 +188,27 @@ set autoindent
 set smartindent
 
 " Configure the cursor
-" 光标和字体受所用终端的配置的影响
+" TODO
 
 " Configure the cursor line
+" NOTE:  evening.vim colorscheme uses 'underline'
 set cursorline    " highlight current line
 highlight CursorLine cterm=bold ctermbg=237 ctermfg=NONE guibg=NONE guifg=NONE 
+
+hi Visual term=reverse cterm=reverse guibg=Grey
 
 "autocmd InsertEnter * se cul
 "autocmd InsertLeave * se nocul
 
-"set cursorcolumn  " highlight current colum
+set cursorcolumn  " highlight current colum
 "highlight ColorColumn ctermbg=235 guibg=#2c2d27
 
 set colorcolumn=80
 
-"hi Visual term=reverse cterm=reverse guibg=Grey
-
 set ruler
+
 " Allow backspacing
 set backspace=indent,eol,start
-
-autocmd insertLeave * se nocul
-autocmd InsertEnter * se cul
-
 
 " Highlight the search result
 ":nohl cancel highlight
@@ -273,7 +277,7 @@ if has("gui_running")
     set guioptions-=L
     set guioptions-=r
     set guioptions-=b
-    " set showtabline=0
+    set showtabline=0
     set guifont=courier_new:h16:b:cDEFAULT
 endif
 
