@@ -7,13 +7,10 @@
 " vim -u NONE -N
 
 " Install the necessary packages
-" Ubuntu/debian
 " sudo apt install silversearcher-ag
 " sudo apt install fonts-powerline
 " sudo apt install doxygen
 " sudo apt install global 
-" mkdir ~/.vimr/.undo
-" mkdir ~/.vim/.backup
 
 " colorscheme
 " term 黑白终端的属性
@@ -256,15 +253,25 @@ filetype indent on "Enable loading the indent file for specific file type
 "set noundofile
 "set nobackup
 
+" undo file location
 set undofile
-
-let s:undodir = expand('~/.vim/.undo')
-if !isdirectory(s:undodir)
-   silent! call mkdir(s:undodir, 'p')
+let s:uddir = expand('~/.vim/.undo')
+if !isdirectory(s:uddir)
+   silent! call mkdir(s:uddir, 'p')
 endif
+set undodir=~/.vim/.undo
 
-set undodir=s:undodir
-set backupdir=$HOME/.vim/.backup
+" Vim利用writebackup和backup选项，在编辑文件的过程中，自动生成备份文件。
+" Vim默认启用weitebackup选项。
+" backup file location
+set backup " 开启backup选项
+let s:budir = expand('~/.vim/.backup')
+if !isdirectory(s:budir)
+    silent! call mkdir(s:budir, 'p')
+endif
+set backupdir=~/.vim/.backup
+"set backupext=.bk "备份文件默认的后缀是~，通过该命令可修改后缀
+
 
 "打开文件后光标处于上次退出的位置
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -288,7 +295,8 @@ endif
 call plug#begin('~/.vim/plugged')
 Plug 'preservim/nerdtree' ", { 'on': 'NERDTreeToggle' }
 Plug 'majutsushi/tagbar'
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
+Plug 'justmao945/vim-clang'
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'dense-analysis/ale'
@@ -317,7 +325,10 @@ Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
 Plug 'sgur/vim-textobj-parameter'
 Plug 'octol/vim-cpp-enhanced-highlight'
+
 Plug 'MattesGroeger/vim-bookmarks'
+Plug 'vim-utils/vim-man'
+Plug 'prabirshrestha/vim-lsp'
 call plug#end()
 
 " ============A============"
@@ -486,7 +497,6 @@ let g:Lf_PreviewInPopup = 1
 "nnoremap <silent> <c-p> :Files <CR>
 
 " ========nerd commenter========"
-
 " Usage:
 " <leader>cc 注释当前行
 " <leader>cu 取消注释
@@ -515,9 +525,7 @@ let g:DoxygenToolkit_classTag = "@class "
 "let g:DoxygenToolkit_licenseTag=""   <-- !!! Does not end with "\<enter>"
 
 
-"
 " ========gutentags========
-"
 " gutentags 搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归
 let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 
@@ -539,9 +547,7 @@ if !isdirectory(s:vim_tags)
 endif
 
 
-"
 " ========LeaderF========
-"
 let g:Lf_ShortcutF = '<c-p>'
 let g:Lf_ShortcutB = '<m-n>'
 noremap <c-n> :LeaderfMru<cr>
@@ -580,6 +586,7 @@ let g:bookmark_highlight_lines = 1
 " [count]mkk: Move up bookmark at current line
 " [count]mjj: Move down bookmark at current line
 " [count]mg: Move bookmark at current line to another line
+
 
 "source $VIMRUNTIME/mswin.vim
 "behave mswin
